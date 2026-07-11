@@ -145,14 +145,13 @@ export default function App() {
     if(!editVehicle)return;
     const newPlate=(editVehicle.newPlate||"").trim().toUpperCase()||editVehicle.plate;
     const nv=vehicles.map(v=>v.plate===editVehicle.plate?{...v,plate:newPlate,owner:editVehicle.owner}:v);
-    // also update schedules if plate changed
     if(newPlate!==editVehicle.plate){
       const ns={};
       Object.entries(schedules).forEach(([date,ds])=>{ns[date]=ds.map(s=>s.plate===editVehicle.plate?{...s,plate:newPlate}:s);});
-      updateVehicles(nv);updateSchedules(ns);
+      updateVehicles(nv);updateSchedules(ns);   // 👈 aquí está el problema
     } else {updateVehicles(nv);}
     setEditVehicle(null);
-  };
+};
 
   const applyReplacement=(originalPlate)=>{
     const newPlate=(replaceInput[originalPlate]||"").trim().toUpperCase();
